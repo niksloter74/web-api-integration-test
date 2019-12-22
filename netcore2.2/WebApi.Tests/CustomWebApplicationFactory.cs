@@ -9,7 +9,7 @@ namespace WebApi.Tests
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {
-        private const string TestDbConnectionString = "Server=.;Initial Catalog=WebApiTestDB_V3;Trusted_Connection=True;";
+        private const string TestDbConnectionString = "Server=.;Initial Catalog=WebApiTestDB_V2;Trusted_Connection=True;";
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {

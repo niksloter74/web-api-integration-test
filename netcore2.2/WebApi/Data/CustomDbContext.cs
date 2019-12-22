@@ -35,7 +35,7 @@ namespace WebApi.Data
 
         public async Task Save<TModel>(TModel model)
         {
-            using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 Update(model);
                 await SaveChangesAsync();

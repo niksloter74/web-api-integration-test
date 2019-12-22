@@ -19,7 +19,7 @@ namespace WebApi.Tests
         public IntegrationTest(CustomWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
-            _serviceProvider = factory.Services.CreateScope().ServiceProvider;
+            _serviceProvider = factory.Server.Host.Services.CreateScope().ServiceProvider;
             _db = _serviceProvider.GetRequiredService<CustomDbContext>();
         }
 
