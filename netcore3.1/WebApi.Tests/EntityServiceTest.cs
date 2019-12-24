@@ -11,11 +11,11 @@ namespace WebApi.Tests
     [AutoRollback]
     public class EntityServiceTest : IntegrationTest
     {
-        private readonly IEntityService service;
+        private readonly IEntityService _service;
 
         public EntityServiceTest(CustomWebApplicationFactory factory) : base(factory)
         {
-            service = _serviceProvider.GetRequiredService<IEntityService>();
+            _service = _serviceProvider.GetRequiredService<IEntityService>();
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace WebApi.Tests
             };
 
             // act
-            await service.Save(model);
+            await _service.Save(model);
 
             // assert
             var result = await _db.Entities.FirstOrDefaultAsync();
@@ -43,7 +43,7 @@ namespace WebApi.Tests
             model.Name = "updated entity";
 
             // act
-            await service.Save(model);
+            await _service.Save(model);
 
             // assert
             var result = await _db.Entities.FirstOrDefaultAsync();
@@ -62,7 +62,7 @@ namespace WebApi.Tests
             };
 
             // act
-            var ex = await Assert.ThrowsAnyAsync<Exception>(async () => await service.Save(model));
+            var ex = await Assert.ThrowsAnyAsync<Exception>(async () => await _service.Save(model));
 
             // assert
             Assert.StartsWith("Cannot insert duplicate", ex.InnerException.Message);

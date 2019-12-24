@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -12,16 +13,21 @@ namespace WebApi.Tests
 {
     public class IntegrationTest : IClassFixture<CustomWebApplicationFactory>
     {
+        protected CustomWebApplicationFactory _factory;
         protected readonly HttpClient _client;
         protected readonly IServiceProvider _serviceProvider;
         protected readonly CustomDbContext _db;
 
         public IntegrationTest(CustomWebApplicationFactory factory)
         {
-            _client = factory.CreateClient();
-            _serviceProvider = factory.Services.CreateScope().ServiceProvider;
+            _factory = factory;
+            _client = _factory.CreateClient();
+            _serviceProvider = _factory.Services.CreateScope().ServiceProvider;
             _db = _serviceProvider.GetRequiredService<CustomDbContext>();
         }
+
+        protected HttpClient CreateClient(Action<IWebHostBuilder> configuration) 
+            => _factory.WithWebHostBuilder(configuration).CreateClient();
 
         protected void DetachAll()
         {
